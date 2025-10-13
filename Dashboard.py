@@ -81,6 +81,11 @@ CUSTOM_STYLES = {
         'paddingLeft': '15px',
         'marginBottom': '25px',
         'marginTop': '10px'
+    },
+    'btn_active': {
+        'backgroundColor': COLORS['primary'],
+        'borderColor': COLORS['primary'],
+        'boxShadow': f'0 0 0 0.2rem {COLORS["primary"]}44'
     }
 }
 
@@ -116,325 +121,44 @@ app.layout = dbc.Container([
         ], width=12)
     ], className="mb-4"),
     
-    # Navigation
+    # Navigation - CORRIGÉE
     dbc.Row([
         dbc.Col([
             dbc.Card([
                 dbc.CardBody([
                     dbc.ButtonGroup([
-                        dbc.Button("📊 Vue d'Ensemble", id="btn-overview", color="primary", active=True),
-                        dbc.Button("🏝️ Analyse DROM", id="btn-drom", color="danger"),
-                        dbc.Button("🏖️ Analyse COM", id="btn-com", color="warning"),
-                        dbc.Button("🏙️ Analyse Métropole", id="btn-metro", color="info"),
-                        dbc.Button("📈 Performance Financière", id="btn-finance", color="success"),
-                    ], size="lg", style={'width': '100%', 'justifyContent': 'center'})
+                        dbc.Button("📊 Vue d'Ensemble", 
+                                  id="btn-overview", 
+                                  color="primary",
+                                  className="me-2",
+                                  n_clicks=0),
+                        dbc.Button("🏝️ Analyse DROM", 
+                                  id="btn-drom", 
+                                  color="danger",
+                                  className="me-2",
+                                  n_clicks=0),
+                        dbc.Button("🏖️ Analyse COM", 
+                                  id="btn-com", 
+                                  color="warning", 
+                                  className="me-2",
+                                  n_clicks=0),
+                        dbc.Button("🏙️ Analyse Métropole", 
+                                  id="btn-metro", 
+                                  color="info",
+                                  className="me-2",
+                                  n_clicks=0),
+                        dbc.Button("📈 Performance Financière", 
+                                  id="btn-finance", 
+                                  color="success",
+                                  n_clicks=0),
+                    ], style={'width': '100%', 'justifyContent': 'center', 'flexWrap': 'wrap'})
                 ])
             ], style={'backgroundColor': 'transparent', 'border': 'none'})
         ], width=12)
     ], className="mb-4"),
     
-    # KPI Principaux - Ligne 1
-    dbc.Row([
-        dbc.Col([
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div([
-                        html.Div([
-                            html.I(className="fas fa-euro-sign fa-2x", 
-                                  style={'color': COLORS['success']})
-                        ], className="text-center mb-3"),
-                        html.H4("Chiffre d'Affaires", 
-                               style={'color': COLORS['text_secondary'], 
-                                      'fontSize': '14px',
-                                      'fontWeight': '600'}),
-                        html.H2(id="ca-value", 
-                               style={'color': COLORS['success'], 
-                                      'fontWeight': '700',
-                                      'margin': '10px 0'}),
-                        html.Div(id="ca-trend",
-                               style={'color': COLORS['text_muted'], 
-                                      'fontSize': '12px'})
-                    ], className="text-center")
-                ])
-            ], style=CUSTOM_STYLES['metric_card'], id="card-ca")
-        ], width=2),
-        
-        dbc.Col([
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div([
-                        html.Div([
-                            html.I(className="fas fa-chart-line fa-2x", 
-                                  style={'color': COLORS['primary']})
-                        ], className="text-center mb-3"),
-                        html.H4("Bénéfice Net", 
-                               style={'color': COLORS['text_secondary'], 
-                                      'fontSize': '14px',
-                                      'fontWeight': '600'}),
-                        html.H2(id="profit-value", 
-                               style={'color': COLORS['primary'], 
-                                      'fontWeight': '700',
-                                      'margin': '10px 0'}),
-                        html.Div(id="profit-trend",
-                               style={'color': COLORS['text_muted'], 
-                                      'fontSize': '12px'})
-                    ], className="text-center")
-                ])
-            ], style=CUSTOM_STYLES['metric_card'], id="card-profit")
-        ], width=2),
-        
-        dbc.Col([
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div([
-                        html.Div([
-                            html.I(className="fas fa-users fa-2x", 
-                                  style={'color': COLORS['info']})
-                        ], className="text-center mb-3"),
-                        html.H4("Effectifs", 
-                               style={'color': COLORS['text_secondary'], 
-                                      'fontSize': '14px',
-                                      'fontWeight': '600'}),
-                        html.H2(id="employees-value", 
-                               style={'color': COLORS['info'], 
-                                      'fontWeight': '700',
-                                      'margin': '10px 0'}),
-                        html.Div("Employés", 
-                               style={'color': COLORS['text_muted'], 
-                                      'fontSize': '12px'})
-                    ], className="text-center")
-                ])
-            ], style=CUSTOM_STYLES['metric_card'], id="card-employees")
-        ], width=2),
-        
-        dbc.Col([
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div([
-                        html.Div([
-                            html.I(className="fas fa-store fa-2x", 
-                                  style={'color': COLORS['warning']})
-                        ], className="text-center mb-3"),
-                        html.H4("Magasins", 
-                               style={'color': COLORS['text_secondary'], 
-                                      'fontSize': '14px',
-                                      'fontWeight': '600'}),
-                        html.H2(id="stores-value", 
-                               style={'color': COLORS['warning'], 
-                                      'fontWeight': '700',
-                                      'margin': '10px 0'}),
-                        html.Div("Points de vente", 
-                               style={'color': COLORS['text_muted'], 
-                                      'fontSize': '12px'})
-                    ], className="text-center")
-                ])
-            ], style=CUSTOM_STYLES['metric_card'], id="card-stores")
-        ], width=2),
-        
-        dbc.Col([
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div([
-                        html.Div([
-                            html.I(className="fas fa-star fa-2x", 
-                                  style={'color': COLORS['drom']})
-                        ], className="text-center mb-3"),
-                        html.H4("Satisfaction", 
-                               style={'color': COLORS['text_secondary'], 
-                                      'fontSize': '14px',
-                                      'fontWeight': '600'}),
-                        html.H2(id="satisfaction-value", 
-                               style={'color': COLORS['drom'], 
-                                      'fontWeight': '700',
-                                      'margin': '10px 0'}),
-                        html.Div("/ 5.0", 
-                               style={'color': COLORS['text_muted'], 
-                                      'fontSize': '12px'})
-                    ], className="text-center")
-                ])
-            ], style=CUSTOM_STYLES['metric_card'], id="card-satisfaction")
-        ], width=2),
-        
-        dbc.Col([
-            dbc.Card([
-                dbc.CardBody([
-                    html.Div([
-                        html.Div([
-                            html.I(className="fas fa-shopping-basket fa-2x", 
-                                  style={'color': COLORS['com']})
-                        ], className="text-center mb-3"),
-                        html.H4("Panier Moyen", 
-                               style={'color': COLORS['text_secondary'], 
-                                      'fontSize': '14px',
-                                      'fontWeight': '600'}),
-                        html.H2(id="basket-value", 
-                               style={'color': COLORS['com'], 
-                                      'fontWeight': '700',
-                                      'margin': '10px 0'}),
-                        html.Div("€", 
-                               style={'color': COLORS['text_muted'], 
-                                      'fontSize': '12px'})
-                    ], className="text-center")
-                ])
-            ], style=CUSTOM_STYLES['metric_card'], id="card-basket")
-        ], width=2)
-    ], className="mb-4"),
-    
-    # Première ligne de graphiques
-    dbc.Row([
-        dbc.Col([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("📈 Évolution Financière", 
-                           style={'color': COLORS['text_primary'], 
-                                  'margin': '0'})
-                ], style={'backgroundColor': COLORS['card_bg'], 
-                         'borderBottom': f'1px solid {COLORS["card_border"]}'}),
-                dbc.CardBody([
-                    dcc.Graph(id="financial-trend", style={'height': '400px'})
-                ])
-            ], style=CUSTOM_STYLES['metric_card'])
-        ], width=8),
-        
-        dbc.Col([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("🌍 Répartition Territoriale", 
-                           style={'color': COLORS['text_primary'], 
-                                  'margin': '0'})
-                ], style={'backgroundColor': COLORS['card_bg'], 
-                         'borderBottom': f'1px solid {COLORS["card_border"]}'}),
-                dbc.CardBody([
-                    dcc.Graph(id="territory-breakdown", style={'height': '400px'})
-                ])
-            ], style=CUSTOM_STYLES['metric_card'])
-        ], width=4)
-    ], className="mb-4"),
-    
-    # Deuxième ligne de graphiques
-    dbc.Row([
-        dbc.Col([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("🏆 Performance par Territoire", 
-                           style={'color': COLORS['text_primary'], 
-                                  'margin': '0'})
-                ], style={'backgroundColor': COLORS['card_bg'], 
-                         'borderBottom': f'1px solid {COLORS["card_border"]}'}),
-                dbc.CardBody([
-                    dcc.Graph(id="territory-performance", style={'height': '450px'})
-                ])
-            ], style=CUSTOM_STYLES['metric_card'])
-        ], width=12)
-    ], className="mb-4"),
-    
-    # Troisième ligne : Analyse détaillée
-    dbc.Row([
-        dbc.Col([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("📊 Analyse Comparative", 
-                           style={'color': COLORS['text_primary'], 
-                                  'margin': '0'})
-                ], style={'backgroundColor': COLORS['card_bg'], 
-                         'borderBottom': f'1px solid {COLORS["card_border"]}'}),
-                dbc.CardBody([
-                    dbc.Row([
-                        dbc.Col([
-                            dcc.Graph(id="type-comparison", style={'height': '300px'})
-                        ], width=4),
-                        dbc.Col([
-                            dcc.Graph(id="stores-analysis", style={'height': '300px'})
-                        ], width=4),
-                        dbc.Col([
-                            dcc.Graph(id="performance-gauges", style={'height': '300px'})
-                        ], width=4)
-                    ])
-                ])
-            ], style=CUSTOM_STYLES['metric_card'])
-        ], width=12)
-    ], className="mb-4"),
-    
-    # Quatrième ligne : Transactions et indicateurs temps réel
-    dbc.Row([
-        dbc.Col([
-            dbc.Card([
-                dbc.CardHeader([
-                    html.H4("💳 Transactions en Temps Réel", 
-                           style={'color': COLORS['text_primary'], 
-                                  'margin': '0'})
-                ], style={'backgroundColor': COLORS['card_bg'], 
-                         'borderBottom': f'1px solid {COLORS["card_border"]}'}),
-                dbc.CardBody([
-                    dash_table.DataTable(
-                        id='transaction-table',
-                        columns=[
-                            {'name': 'Date', 'id': 'Date'},
-                            {'name': 'Type', 'id': 'Type'},
-                            {'name': 'Catégorie', 'id': 'Catégorie'},
-                            {'name': 'Territoire', 'id': 'Territoire'},
-                            {'name': 'Type Territoire', 'id': 'Type_Territoire'},
-                            {'name': 'Montant', 'id': 'Montant'}
-                        ],
-                        style_cell={
-                            'backgroundColor': COLORS['card_bg'],
-                            'color': COLORS['text_primary'],
-                            'border': f'1px solid {COLORS["card_border"]}',
-                            'textAlign': 'left',
-                            'fontSize': '12px',
-                            'fontFamily': 'Arial, sans-serif'
-                        },
-                        style_header={
-                            'backgroundColor': COLORS['primary'],
-                            'color': 'white',
-                            'fontWeight': 'bold',
-                            'border': f'1px solid {COLORS["card_border"]}',
-                            'textAlign': 'center'
-                        },
-                        style_data_conditional=[
-                            {
-                                'if': {'row_index': 'odd'},
-                                'backgroundColor': '#1E2A47'
-                            },
-                            {
-                                'if': {'filter_query': '{Montant} contains "-"'},
-                                'color': COLORS['danger'],
-                                'fontWeight': '600'
-                            },
-                            {
-                                'if': {'filter_query': '{Montant} contains "+"'},
-                                'color': COLORS['success'],
-                                'fontWeight': '600'
-                            },
-                            {
-                                'if': {'column_id': 'Type_Territoire', 'filter_query': '{Type_Territoire} = "DROM"'},
-                                'backgroundColor': COLORS['drom'],
-                                'color': 'white',
-                                'fontWeight': '600'
-                            },
-                            {
-                                'if': {'column_id': 'Type_Territoire', 'filter_query': '{Type_Territoire} = "COM"'},
-                                'backgroundColor': COLORS['com'],
-                                'color': 'white',
-                                'fontWeight': '600'
-                            },
-                            {
-                                'if': {'column_id': 'Type_Territoire', 'filter_query': '{Type_Territoire} = "Métropole"'},
-                                'backgroundColor': COLORS['metro'],
-                                'color': 'white',
-                                'fontWeight': '600'
-                            }
-                        ],
-                        page_size=8,
-                        page_action='native',
-                        sort_action='native',
-                        filter_action='native',
-                        style_table={'overflowX': 'auto'}
-                    )
-                ])
-            ], style=CUSTOM_STYLES['metric_card'])
-        ], width=12)
-    ], className="mb-4"),
+    # Contenu Dynamique basé sur la sélection
+    html.Div(id="dynamic-content"),
     
     # Pied de page
     dbc.Row([
@@ -468,7 +192,7 @@ app.layout = dbc.Container([
         interval=60*1000,  # Mise à jour toutes les minutes
         n_intervals=0
     ),
-    dcc.Store(id='view-store', data='overview')
+    dcc.Store(id='current-view', data='overview')
     
 ], fluid=True, style={
     'backgroundColor': COLORS['background'],
@@ -477,37 +201,1007 @@ app.layout = dbc.Container([
     'fontFamily': 'Arial, sans-serif'
 })
 
-# Callbacks pour l'interactivité
+# Callback pour la navigation principale
 @app.callback(
-    [Output('card-ca', 'style'),
-     Output('card-profit', 'style'),
-     Output('card-employees', 'style'),
-     Output('card-stores', 'style'),
-     Output('card-satisfaction', 'style'),
-     Output('card-basket', 'style')],
-    [Input('card-ca', 'n_clicks'),
-     Input('card-profit', 'n_clicks'),
-     Input('card-employees', 'n_clicks'),
-     Input('card-stores', 'n_clicks'),
-     Input('card-satisfaction', 'n_clicks'),
-     Input('card-basket', 'n_clicks')]
+    [Output('current-view', 'data'),
+     Output('btn-overview', 'style'),
+     Output('btn-drom', 'style'),
+     Output('btn-com', 'style'),
+     Output('btn-metro', 'style'),
+     Output('btn-finance', 'style')],
+    [Input('btn-overview', 'n_clicks'),
+     Input('btn-drom', 'n_clicks'),
+     Input('btn-com', 'n_clicks'),
+     Input('btn-metro', 'n_clicks'),
+     Input('btn-finance', 'n_clicks')]
 )
-def hover_effect(*args):
+def update_navigation(overview_clicks, drom_clicks, com_clicks, metro_clicks, finance_clicks):
     ctx = callback_context
     if not ctx.triggered:
-        return [CUSTOM_STYLES['metric_card']] * 6
+        # Vue par défaut
+        default_style = {'backgroundColor': COLORS['primary'], 'borderColor': COLORS['primary']}
+        other_style = {}
+        return 'overview', default_style, other_style, other_style, other_style, other_style
     
-    card_id = ctx.triggered[0]['prop_id'].split('.')[0]
-    base_style = CUSTOM_STYLES['metric_card'].copy()
-    hover_style = CUSTOM_STYLES['metric_card'].copy()
-    hover_style.update(CUSTOM_STYLES['metric_card_hover'])
+    button_id = ctx.triggered[0]['prop_id'].split('.')[0]
     
-    styles = [base_style] * 6
-    card_index = ['card-ca', 'card-profit', 'card-employees', 'card-stores', 'card-satisfaction', 'card-basket'].index(card_id)
-    styles[card_index] = hover_style
+    # Styles pour les boutons actifs/inactifs
+    active_style = CUSTOM_STYLES['btn_active']
+    inactive_style = {}
     
-    return styles
+    views = {
+        'btn-overview': ('overview', active_style, inactive_style, inactive_style, inactive_style, inactive_style),
+        'btn-drom': ('drom', inactive_style, active_style, inactive_style, inactive_style, inactive_style),
+        'btn-com': ('com', inactive_style, inactive_style, active_style, inactive_style, inactive_style),
+        'btn-metro': ('metro', inactive_style, inactive_style, inactive_style, active_style, inactive_style),
+        'btn-finance': ('finance', inactive_style, inactive_style, inactive_style, inactive_style, active_style)
+    }
+    
+    return views.get(button_id, ('overview', active_style, inactive_style, inactive_style, inactive_style, inactive_style))
 
+# Callback pour le contenu dynamique
+@app.callback(
+    Output('dynamic-content', 'children'),
+    [Input('current-view', 'data'),
+     Input('interval-component', 'n_intervals')]
+)
+def update_dynamic_content(current_view, n_intervals):
+    if current_view == 'overview':
+        return create_overview_view()
+    elif current_view == 'drom':
+        return create_drom_view()
+    elif current_view == 'com':
+        return create_com_view()
+    elif current_view == 'metro':
+        return create_metro_view()
+    elif current_view == 'finance':
+        return create_finance_view()
+    else:
+        return create_overview_view()
+
+# Fonctions pour créer les différentes vues
+def create_overview_view():
+    """Vue d'ensemble avec tous les territoires"""
+    return dbc.Container([
+        # KPI Principaux - Ligne 1
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.Div([
+                            html.Div([
+                                html.I(className="fas fa-euro-sign fa-2x", 
+                                      style={'color': COLORS['success']})
+                            ], className="text-center mb-3"),
+                            html.H4("Chiffre d'Affaires", 
+                                   style={'color': COLORS['text_secondary'], 
+                                          'fontSize': '14px',
+                                          'fontWeight': '600'}),
+                            html.H2(id="ca-value", 
+                                   style={'color': COLORS['success'], 
+                                          'fontWeight': '700',
+                                          'margin': '10px 0'}),
+                            html.Div(id="ca-trend",
+                                   style={'color': COLORS['text_muted'], 
+                                          'fontSize': '12px'})
+                        ], className="text-center")
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'], id="card-ca")
+            ], width=2),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.Div([
+                            html.Div([
+                                html.I(className="fas fa-chart-line fa-2x", 
+                                      style={'color': COLORS['primary']})
+                            ], className="text-center mb-3"),
+                            html.H4("Bénéfice Net", 
+                                   style={'color': COLORS['text_secondary'], 
+                                          'fontSize': '14px',
+                                          'fontWeight': '600'}),
+                            html.H2(id="profit-value", 
+                                   style={'color': COLORS['primary'], 
+                                          'fontWeight': '700',
+                                          'margin': '10px 0'}),
+                            html.Div(id="profit-trend",
+                                   style={'color': COLORS['text_muted'], 
+                                          'fontSize': '12px'})
+                        ], className="text-center")
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'], id="card-profit")
+            ], width=2),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.Div([
+                            html.Div([
+                                html.I(className="fas fa-users fa-2x", 
+                                      style={'color': COLORS['info']})
+                            ], className="text-center mb-3"),
+                            html.H4("Effectifs", 
+                                   style={'color': COLORS['text_secondary'], 
+                                          'fontSize': '14px',
+                                          'fontWeight': '600'}),
+                            html.H2(id="employees-value", 
+                                   style={'color': COLORS['info'], 
+                                          'fontWeight': '700',
+                                          'margin': '10px 0'}),
+                            html.Div("Employés", 
+                                   style={'color': COLORS['text_muted'], 
+                                          'fontSize': '12px'})
+                        ], className="text-center")
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'], id="card-employees")
+            ], width=2),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.Div([
+                            html.Div([
+                                html.I(className="fas fa-store fa-2x", 
+                                      style={'color': COLORS['warning']})
+                            ], className="text-center mb-3"),
+                            html.H4("Magasins", 
+                                   style={'color': COLORS['text_secondary'], 
+                                          'fontSize': '14px',
+                                          'fontWeight': '600'}),
+                            html.H2(id="stores-value", 
+                                   style={'color': COLORS['warning'], 
+                                          'fontWeight': '700',
+                                          'margin': '10px 0'}),
+                            html.Div("Points de vente", 
+                                   style={'color': COLORS['text_muted'], 
+                                          'fontSize': '12px'})
+                        ], className="text-center")
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'], id="card-stores")
+            ], width=2),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.Div([
+                            html.Div([
+                                html.I(className="fas fa-star fa-2x", 
+                                      style={'color': COLORS['drom']})
+                            ], className="text-center mb-3"),
+                            html.H4("Satisfaction", 
+                                   style={'color': COLORS['text_secondary'], 
+                                          'fontSize': '14px',
+                                          'fontWeight': '600'}),
+                            html.H2(id="satisfaction-value", 
+                                   style={'color': COLORS['drom'], 
+                                          'fontWeight': '700',
+                                          'margin': '10px 0'}),
+                            html.Div("/ 5.0", 
+                                   style={'color': COLORS['text_muted'], 
+                                          'fontSize': '12px'})
+                        ], className="text-center")
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'], id="card-satisfaction")
+            ], width=2),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.Div([
+                            html.Div([
+                                html.I(className="fas fa-shopping-basket fa-2x", 
+                                      style={'color': COLORS['com']})
+                            ], className="text-center mb-3"),
+                            html.H4("Panier Moyen", 
+                                   style={'color': COLORS['text_secondary'], 
+                                          'fontSize': '14px',
+                                          'fontWeight': '600'}),
+                            html.H2(id="basket-value", 
+                                   style={'color': COLORS['com'], 
+                                          'fontWeight': '700',
+                                          'margin': '10px 0'}),
+                            html.Div("€", 
+                                   style={'color': COLORS['text_muted'], 
+                                          'fontSize': '12px'})
+                        ], className="text-center")
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'], id="card-basket")
+            ], width=2)
+        ], className="mb-4"),
+        
+        # Première ligne de graphiques
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("📈 Évolution Financière - Vue Globale", 
+                               style={'color': COLORS['text_primary'], 
+                                      'margin': '0'})
+                    ], style={'backgroundColor': COLORS['card_bg'], 
+                             'borderBottom': f'1px solid {COLORS["card_border"]}'}),
+                    dbc.CardBody([
+                        dcc.Graph(id="financial-trend", style={'height': '400px'})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=8),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("🌍 Répartition Territoriale", 
+                               style={'color': COLORS['text_primary'], 
+                                      'margin': '0'})
+                    ], style={'backgroundColor': COLORS['card_bg'], 
+                             'borderBottom': f'1px solid {COLORS["card_border"]}'}),
+                    dbc.CardBody([
+                        dcc.Graph(id="territory-breakdown", style={'height': '400px'})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=4)
+        ], className="mb-4"),
+        
+        # Deuxième ligne de graphiques
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("🏆 Performance par Territoire - Tous Types", 
+                               style={'color': COLORS['text_primary'], 
+                                      'margin': '0'})
+                    ], style={'backgroundColor': COLORS['card_bg'], 
+                             'borderBottom': f'1px solid {COLORS["card_border"]}'}),
+                    dbc.CardBody([
+                        dcc.Graph(id="territory-performance", style={'height': '450px'})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ], className="mb-4"),
+        
+        # Troisième ligne : Analyse détaillée
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("📊 Analyse Comparative - Vue d'Ensemble", 
+                               style={'color': COLORS['text_primary'], 
+                                      'margin': '0'})
+                    ], style={'backgroundColor': COLORS['card_bg'], 
+                             'borderBottom': f'1px solid {COLORS["card_border"]}'}),
+                    dbc.CardBody([
+                        dbc.Row([
+                            dbc.Col([
+                                dcc.Graph(id="type-comparison", style={'height': '300px'})
+                            ], width=4),
+                            dbc.Col([
+                                dcc.Graph(id="stores-analysis", style={'height': '300px'})
+                            ], width=4),
+                            dbc.Col([
+                                dcc.Graph(id="performance-gauges", style={'height': '300px'})
+                            ], width=4)
+                        ])
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ], className="mb-4"),
+        
+        # Quatrième ligne : Transactions
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("💳 Transactions Récentes - Tous Territoires", 
+                               style={'color': COLORS['text_primary'], 
+                                      'margin': '0'})
+                    ], style={'backgroundColor': COLORS['card_bg'], 
+                             'borderBottom': f'1px solid {COLORS["card_border"]}'}),
+                    dbc.CardBody([
+                        create_transactions_table()
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ], className="mb-4")
+    ])
+
+def create_drom_view():
+    """Vue dédiée aux DROM"""
+    drom_data = territory_data[territory_data['Type'] == 'DROM']
+    
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H2("🏝️ Analyse DROM", 
+                           style={'color': COLORS['drom'], 
+                                  'borderBottom': f'2px solid {COLORS["drom"]}',
+                                  'paddingBottom': '10px',
+                                  'marginBottom': '20px'})
+                ])
+            ], width=12)
+        ]),
+        
+        # KPI DROM
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4(f"{len(drom_data)} Territoires DROM", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{drom_data['Chiffre_affaires'].sum():,.0f}€", 
+                               style={'color': COLORS['drom']}),
+                        html.P("Chiffre d'affaires total", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Croissance Moyenne", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"+{drom_data['Croissance'].mean():.1f}%", 
+                               style={'color': COLORS['success']}),
+                        html.P("vs période précédente", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Satisfaction Moyenne", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{drom_data['Satisfaction'].mean():.1f}/5", 
+                               style={'color': COLORS['warning']}),
+                        html.P("Score client", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Part de Marché Moyenne", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{drom_data['Part_marche'].mean():.1f}%", 
+                               style={'color': COLORS['info']}),
+                        html.P("Dans chaque territoire", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3)
+        ], className="mb-4"),
+        
+        # Graphiques DROM
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("📊 Performance des Territoires DROM", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_drom_performance_chart(drom_data),
+                            style={'height': '400px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=8),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("🎯 Métriques Clés DROM", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_drom_metrics_chart(drom_data),
+                            style={'height': '400px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=4)
+        ], className="mb-4"),
+        
+        # Transactions DROM
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("💳 Transactions DROM Récentes", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        create_transactions_table(territory_type='DROM')
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ])
+    ])
+
+def create_com_view():
+    """Vue dédiée aux COM"""
+    com_data = territory_data[territory_data['Type'] == 'COM']
+    
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H2("🏖️ Analyse COM", 
+                           style={'color': COLORS['com'], 
+                                  'borderBottom': f'2px solid {COLORS["com"]}',
+                                  'paddingBottom': '10px',
+                                  'marginBottom': '20px'})
+                ])
+            ], width=12)
+        ]),
+        
+        # KPI COM
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4(f"{len(com_data)} Territoires COM", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{com_data['Chiffre_affaires'].sum():,.0f}€", 
+                               style={'color': COLORS['com']}),
+                        html.P("Chiffre d'affaires total", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Croissance Moyenne", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"+{com_data['Croissance'].mean():.1f}%", 
+                               style={'color': COLORS['success']}),
+                        html.P("vs période précédente", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Panier Moyen", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{com_data['Panier_moyen'].mean():.1f}€", 
+                               style={'color': COLORS['warning']}),
+                        html.P("Montant moyen par transaction", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Rentabilité Moyenne", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{com_data['Rentabilité'].mean():.1f}%", 
+                               style={'color': COLORS['info']}),
+                        html.P("Marge nette moyenne", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3)
+        ], className="mb-4"),
+        
+        # Graphiques COM
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("📊 Analyse Comparative COM", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_com_comparison_chart(com_data),
+                            style={'height': '400px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ], className="mb-4"),
+        
+        # Détails COM
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("🏝️ Détail par Territoire COM", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        create_territory_detail_table(com_data)
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ])
+    ])
+
+def create_metro_view():
+    """Vue dédiée à la Métropole"""
+    metro_data = territory_data[territory_data['Type'] == 'Métropole']
+    
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H2("🏙️ Analyse Métropole", 
+                           style={'color': COLORS['metro'], 
+                                  'borderBottom': f'2px solid {COLORS["metro"]}',
+                                  'paddingBottom': '10px',
+                                  'marginBottom': '20px'})
+                ])
+            ], width=12)
+        ]),
+        
+        # KPI Métropole
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4(f"{len(metro_data)} Régions Métropolitaines", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{metro_data['Chiffre_affaires'].sum():,.0f}€", 
+                               style={'color': COLORS['metro']}),
+                        html.P("Chiffre d'affaires total", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Performance Relative", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{(metro_data['Chiffre_affaires'].sum() / territory_data['Chiffre_affaires'].sum() * 100):.1f}%", 
+                               style={'color': COLORS['primary']}),
+                        html.P("Part du CA total", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Densité de Magasins", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{metro_data['Magasins'].sum() / len(metro_data):.1f}", 
+                               style={'color': COLORS['warning']}),
+                        html.P("Magasins par région", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Nouveaux Clients", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{metro_data['Nouveaux_clients_mois'].sum():,}", 
+                               style={'color': COLORS['success']}),
+                        html.P("Par mois", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3)
+        ], className="mb-4"),
+        
+        # Graphiques Métropole
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("📈 Performance par Région Métropolitaine", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_metro_performance_chart(metro_data),
+                            style={'height': '500px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ], className="mb-4")
+    ])
+
+def create_finance_view():
+    """Vue dédiée à la performance financière"""
+    return dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H2("📈 Analyse Financière Détaillée", 
+                           style={'color': COLORS['success'], 
+                                  'borderBottom': f'2px solid {COLORS["success"]}',
+                                  'paddingBottom': '10px',
+                                  'marginBottom': '20px'})
+                ])
+            ], width=12)
+        ]),
+        
+        # KPI Financiers
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Marge Nette", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{((financial_data['Bénéfice_net'].iloc[-1] - financial_data['Bénéfice_net'].iloc[-2]) / (financial_data['Chiffre_d_affaires'].iloc[-1] - financial_data['Chiffre_d_affaires'].iloc[-2]) * 100) if len(financial_data) > 1 else 12.5:.1f}%", 
+                               style={'color': COLORS['success']}),
+                        html.P("Dernier jour", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("ROI Mensuel", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2("8.2%", 
+                               style={'color': COLORS['primary']}),
+                        html.P("Return on Investment", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Trésorerie", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{financial_data['Bénéfice_net'].iloc[-1] * 0.3:,.0f}€", 
+                               style={'color': COLORS['info']}),
+                        html.P("Disponible", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardBody([
+                        html.H4("Dettes", 
+                               style={'color': COLORS['text_primary']}),
+                        html.H2(f"{financial_data['Investissements'].sum() * 0.6:,.0f}€", 
+                               style={'color': COLORS['warning']}),
+                        html.P("Encours", 
+                              style={'color': COLORS['text_secondary']})
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=3)
+        ], className="mb-4"),
+        
+        # Graphiques Financiers
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("💰 Analyse de Rentabilité", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_profitability_analysis(),
+                            style={'height': '400px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=8),
+            
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("📊 Répartition des Dépenses", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_expenses_breakdown(),
+                            style={'height': '400px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=4)
+        ], className="mb-4"),
+        
+        # Investissements
+        dbc.Row([
+            dbc.Col([
+                dbc.Card([
+                    dbc.CardHeader([
+                        html.H4("🏗️ Historique des Investissements", 
+                               style={'color': COLORS['text_primary']})
+                    ]),
+                    dbc.CardBody([
+                        dcc.Graph(
+                            figure=create_investments_chart(),
+                            style={'height': '300px'}
+                        )
+                    ])
+                ], style=CUSTOM_STYLES['metric_card'])
+            ], width=12)
+        ])
+    ])
+
+# Fonctions helper pour créer les graphiques spécifiques
+def create_drom_performance_chart(drom_data):
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
+        x=drom_data['Territoire'],
+        y=drom_data['Chiffre_affaires'],
+        name='Chiffre d\'affaires',
+        marker_color=COLORS['drom']
+    ))
+    
+    fig.add_trace(go.Scatter(
+        x=drom_data['Territoire'],
+        y=drom_data['Satisfaction'] * 1000000,
+        name='Satisfaction (x1M)',
+        yaxis='y2',
+        line=dict(color=COLORS['warning'], width=3),
+        marker=dict(size=8)
+    ))
+    
+    fig.update_layout(
+        title='Performance des Territoires DROM',
+        xaxis_title='Territoire',
+        yaxis_title='Chiffre d\'affaires (€)',
+        yaxis2=dict(
+            title='Satisfaction (/5)',
+            overlaying='y',
+            side='right',
+            range=[0, 5]
+        ),
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg']
+    )
+    
+    return fig
+
+def create_drom_metrics_chart(drom_data):
+    metrics = ['Croissance', 'Satisfaction', 'Part_marche', 'Rentabilité']
+    values = [drom_data[metric].mean() for metric in metrics]
+    
+    fig = go.Figure(data=[go.Bar(
+        x=metrics,
+        y=values,
+        marker_color=[COLORS['success'], COLORS['warning'], COLORS['info'], COLORS['primary']]
+    )])
+    
+    fig.update_layout(
+        title='Métriques Moyennes DROM',
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg']
+    )
+    
+    return fig
+
+def create_com_comparison_chart(com_data):
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
+        x=com_data['Territoire'],
+        y=com_data['Chiffre_affaires'],
+        name='CA',
+        marker_color=COLORS['com']
+    ))
+    
+    fig.add_trace(go.Bar(
+        x=com_data['Territoire'],
+        y=com_data['Panier_moyen'] * 1000,
+        name='Panier moyen (x1000)',
+        marker_color=COLORS['warning']
+    ))
+    
+    fig.update_layout(
+        title='Comparaison des Territoires COM',
+        barmode='group',
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg']
+    )
+    
+    return fig
+
+def create_metro_performance_chart(metro_data):
+    metro_sorted = metro_data.sort_values('Chiffre_affaires', ascending=True)
+    
+    fig = go.Figure(data=[go.Bar(
+        y=metro_sorted['Territoire'],
+        x=metro_sorted['Chiffre_affaires'],
+        orientation='h',
+        marker_color=COLORS['metro'],
+        text=metro_sorted['Chiffre_affaires'].apply(lambda x: f'{x:,.0f}€'),
+        textposition='auto'
+    )])
+    
+    fig.update_layout(
+        title='Performance par Région Métropolitaine',
+        xaxis_title='Chiffre d\'affaires (€)',
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg'],
+        height=500
+    )
+    
+    return fig
+
+def create_profitability_analysis():
+    fig = go.Figure()
+    
+    fig.add_trace(go.Scatter(
+        x=financial_data['Date'],
+        y=financial_data['Chiffre_d_affaires'],
+        name='Chiffre d\'affaires',
+        line=dict(color=COLORS['success'], width=3)
+    ))
+    
+    fig.add_trace(go.Scatter(
+        x=financial_data['Date'],
+        y=financial_data['Bénéfice_net'],
+        name='Bénéfice net',
+        line=dict(color=COLORS['primary'], width=3)
+    ))
+    
+    fig.update_layout(
+        title='Évolution CA vs Bénéfices',
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg']
+    )
+    
+    return fig
+
+def create_expenses_breakdown():
+    categories = ['Personnel', 'Logistique', 'Marketing', 'Loyers', 'Autres']
+    values = [45, 25, 15, 10, 5]
+    
+    fig = go.Figure(data=[go.Pie(
+        labels=categories,
+        values=values,
+        hole=0.4,
+        marker_colors=[COLORS['drom'], COLORS['com'], COLORS['metro'], COLORS['warning'], COLORS['info']]
+    )])
+    
+    fig.update_layout(
+        title='Répartition des Dépenses',
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg']
+    )
+    
+    return fig
+
+def create_investments_chart():
+    investments = financial_data[financial_data['Investissements'] > 0]
+    
+    fig = go.Figure(data=[go.Bar(
+        x=investments['Date'],
+        y=investments['Investissements'],
+        marker_color=COLORS['primary']
+    )])
+    
+    fig.update_layout(
+        title='Investissements par Date',
+        template='plotly_dark',
+        paper_bgcolor=COLORS['card_bg'],
+        plot_bgcolor=COLORS['card_bg']
+    )
+    
+    return fig
+
+def create_territory_detail_table(data):
+    return dash_table.DataTable(
+        columns=[{"name": col, "id": col} for col in data.columns],
+        data=data.to_dict('records'),
+        style_cell={
+            'backgroundColor': COLORS['card_bg'],
+            'color': COLORS['text_primary'],
+            'border': f'1px solid {COLORS["card_border"]}'
+        },
+        style_header={
+            'backgroundColor': COLORS['primary'],
+            'color': 'white',
+            'fontWeight': 'bold'
+        }
+    )
+
+def create_transactions_table(territory_type=None):
+    if territory_type:
+        filtered_data = [t for t in transactions_data if t['Type_Territoire'] == territory_type]
+    else:
+        filtered_data = transactions_data
+    
+    return dash_table.DataTable(
+        data=filtered_data,
+        columns=[
+            {'name': 'Date', 'id': 'Date'},
+            {'name': 'Type', 'id': 'Type'},
+            {'name': 'Catégorie', 'id': 'Catégorie'},
+            {'name': 'Territoire', 'id': 'Territoire'},
+            {'name': 'Type Territoire', 'id': 'Type_Territoire'},
+            {'name': 'Montant', 'id': 'Montant'}
+        ],
+        style_cell={
+            'backgroundColor': COLORS['card_bg'],
+            'color': COLORS['text_primary'],
+            'border': f'1px solid {COLORS["card_border"]}',
+            'textAlign': 'left',
+            'fontSize': '12px',
+            'fontFamily': 'Arial, sans-serif'
+        },
+        style_header={
+            'backgroundColor': COLORS['primary'],
+            'color': 'white',
+            'fontWeight': 'bold',
+            'border': f'1px solid {COLORS["card_border"]}',
+            'textAlign': 'center'
+        },
+        style_data_conditional=[
+            {
+                'if': {'row_index': 'odd'},
+                'backgroundColor': '#1E2A47'
+            },
+            {
+                'if': {'filter_query': '{Montant} contains "-"'},
+                'color': COLORS['danger'],
+                'fontWeight': '600'
+            },
+            {
+                'if': {'filter_query': '{Montant} contains "+"'},
+                'color': COLORS['success'],
+                'fontWeight': '600'
+            },
+            {
+                'if': {'column_id': 'Type_Territoire', 'filter_query': '{Type_Territoire} = "DROM"'},
+                'backgroundColor': COLORS['drom'],
+                'color': 'white',
+                'fontWeight': '600'
+            },
+            {
+                'if': {'column_id': 'Type_Territoire', 'filter_query': '{Type_Territoire} = "COM"'},
+                'backgroundColor': COLORS['com'],
+                'color': 'white',
+                'fontWeight': '600'
+            },
+            {
+                'if': {'column_id': 'Type_Territoire', 'filter_query': '{Type_Territoire} = "Métropole"'},
+                'backgroundColor': COLORS['metro'],
+                'color': 'white',
+                'fontWeight': '600'
+            }
+        ],
+        page_size=8,
+        page_action='native',
+        sort_action='native',
+        filter_action='native',
+        style_table={'overflowX': 'auto'}
+    )
+
+# Les callbacks existants pour les KPI et graphiques principaux
 @app.callback(
     [Output('ca-value', 'children'),
      Output('profit-value', 'children'),
@@ -890,18 +1584,6 @@ def update_performance_gauges(n_intervals):
     )
     
     return fig
-
-@app.callback(
-    Output('transaction-table', 'data'),
-    [Input('interval-component', 'n_intervals'),
-     Input('refresh-btn', 'n_clicks')]
-)
-def update_transaction_table(n_intervals, n_clicks):
-    if n_clicks:
-        global transactions_data
-        transactions_data = ninja_simulator.generate_real_transactions(15)
-    
-    return transactions_data
 
 if __name__ == '__main__':
     print("🚀 Dashboard GBH Premium démarré!")
