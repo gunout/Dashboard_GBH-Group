@@ -3,3 +3,4 @@ numpy
 plotly
 dash
 dash-bootstrap-components
+streamlit
