@@ -5,3 +5,4 @@ plotly>=5.18.0,<6.0
 altair==5.0.1
 dash
 dash_bootstrap_components
+scipy
