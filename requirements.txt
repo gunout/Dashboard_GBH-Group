@@ -6,4 +6,4 @@ altair==5.0.1
 dash
 dash_bootstrap_components
 scipy
-sklearn
+scikit-learn
