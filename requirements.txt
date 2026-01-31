@@ -4,4 +4,5 @@ plotly
 dash
 dash-bootstrap-components
 streamlit
-altair.vegalite.v4
+altair
+
